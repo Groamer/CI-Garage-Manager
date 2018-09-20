@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Models
 {
-    class Car
+    class CarModel
     {
         private string make;
         private string model;
         private int year;
+        private string engine;
         private string vehicleID;
-        private string engineID;
         private string plate;
         
         public string GetMake()
@@ -42,6 +42,15 @@ namespace CI_Garage_Manager.Application.Models
             this.year = year;
         }
 
+        public string GetEngine()
+        {
+            return this.engine;
+        }
+        public void SetEngine(string engine)
+        {
+            this.engine = engine;
+        }
+
         public string GetVehicleID()
         {
             return this.vehicleID;
@@ -51,22 +60,18 @@ namespace CI_Garage_Manager.Application.Models
             this.vehicleID = vehicleID;
         }
 
-        public string GetEngineID()
-        {
-            return this.engineID;
-        }
-        public void SetEngineID(string engineID)
-        {
-            this.engineID = engineID;
-        }
-
         public string GetPlate()
         {
-            return this.engineID;
+            return this.plate;
         }
         public void SetPlate(string plate)
         {
             this.plate = plate;
+        }
+
+        public void PrintCar()
+        {
+            Console.WriteLine("Make: " + this.make + "\nModel: " + this.model + "\n");
         }
     }
 }

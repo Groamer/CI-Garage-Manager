@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Models
 {
-    class Job
+    class JobModel
     {
-        private Car car;
+        private int carID;
         private string problem;
         private string solution;
         private int milage;
         private float cost;
         private float revenue;
 
-        public Car GetCar()
+        public int GetCarID()
         {
-            return this.car;
+            return this.carID;
         }
-        public void SetCar(Car car)
+        public void SetCarID(int carID)
         {
-            this.car = car;
+            this.carID = carID;
         }
 
         public string GetProblem()
@@ -67,6 +67,11 @@ namespace CI_Garage_Manager.Application.Models
         public void SetRevenue(float revenue)
         {
             this.revenue = revenue;
+        }
+
+        public void PrintJob()
+        {
+            Console.WriteLine("Car ID: " + this.carID + "\nProblem: " + this.problem + "\n");
         }
     }
 }

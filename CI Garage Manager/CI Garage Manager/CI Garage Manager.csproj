@@ -45,9 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Controllers\Car.cs" />
-    <Compile Include="Application\Models\Car.cs" />
-    <Compile Include="Application\Models\Job.cs" />
+    <Compile Include="Application\Controllers\CarController.cs" />
+    <Compile Include="Application\Controllers\JobController.cs" />
+    <Compile Include="Application\Models\CarModel.cs" />
+    <Compile Include="Application\Models\JobModel.cs" />
     <Compile Include="Application\Views\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

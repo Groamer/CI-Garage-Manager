@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Models
 {
+    [Serializable]
     class CarModel
     {
         private string make;
@@ -17,7 +14,7 @@ namespace CI_Garage_Manager.Application.Models
         
         public string GetMake()
         {
-            return this.make;
+            return make;
         }
         public void SetMake(string make)
         {
@@ -26,7 +23,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public string GetModel()
         {
-            return this.model;
+            return model;
         }
         public void SetModel(string model)
         {
@@ -35,7 +32,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public int GetYear()
         {
-            return this.year;
+            return year;
         }
         public void SetYear(int year)
         {
@@ -44,7 +41,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public string GetEngine()
         {
-            return this.engine;
+            return engine;
         }
         public void SetEngine(string engine)
         {
@@ -53,7 +50,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public string GetVehicleID()
         {
-            return this.vehicleID;
+            return vehicleID;
         }
         public void SetVehicleID(string vehicleID)
         {
@@ -62,7 +59,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public string GetPlate()
         {
-            return this.plate;
+            return plate;
         }
         public void SetPlate(string plate)
         {
@@ -71,7 +68,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public void PrintCar()
         {
-            Console.WriteLine("Make: " + this.make + "\nModel: " + this.model + "\n");
+            Console.WriteLine("Make: " + make + "\nModel: " + model + "\n");
         }
     }
 }

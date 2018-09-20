@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Models
 {
+    [Serializable]
     class JobModel
     {
         private int carID;
+        private string startDate;
+        private string endDate;
         private string problem;
         private string solution;
         private int milage;
@@ -17,16 +16,34 @@ namespace CI_Garage_Manager.Application.Models
 
         public int GetCarID()
         {
-            return this.carID;
+            return carID;
         }
         public void SetCarID(int carID)
         {
             this.carID = carID;
         }
 
+        public string GetStartDate()
+        {
+            return startDate;
+        }
+        public void SetStartDate(string startDate)
+        {
+            this.startDate = startDate;
+        }
+
+        public string GetEndDate()
+        {
+            return endDate;
+        }
+        public void SetEndDate(string endDate)
+        {
+            this.endDate = endDate;
+        }
+
         public string GetProblem()
         {
-            return this.problem;
+            return problem;
         }
         public void SetProblem(string problem)
         {
@@ -35,7 +52,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public string GetSolution()
         {
-            return this.solution;
+            return solution;
         }
         public void SetSolution(string solution)
         {
@@ -44,7 +61,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public int GetMilage()
         {
-            return this.milage;
+            return milage;
         }
         public void SetMilage(int milage)
         {
@@ -53,7 +70,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public float GetCost()
         {
-            return this.cost;
+            return cost;
         }
         public void SetCost(float cost)
         {
@@ -62,7 +79,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public float GetRevenue()
         {
-            return this.cost;
+            return cost;
         }
         public void SetRevenue(float revenue)
         {
@@ -71,7 +88,7 @@ namespace CI_Garage_Manager.Application.Models
 
         public void PrintJob()
         {
-            Console.WriteLine("Car ID: " + this.carID + "\nProblem: " + this.problem + "\n");
+            Console.WriteLine("Car ID: " + carID + "\nProblem: " + problem + "\n");
         }
     }
 }

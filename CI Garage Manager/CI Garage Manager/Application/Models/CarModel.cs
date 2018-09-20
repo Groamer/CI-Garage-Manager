@@ -70,5 +70,11 @@ namespace CI_Garage_Manager.Application.Models
         {
             Console.WriteLine("Make: " + make + "\nModel: " + model + "\n");
         }
+
+        override public string ToString()
+        {
+            string car = make + "\n" + model + "\n" + year + "\n" + engine + "\n" + vehicleID + "\n" + plate;
+            return car;
+        }
     }
 }

@@ -77,14 +77,44 @@ namespace CI_Garage_Manager.Application.Controllers
             cars.RemoveAt(ID);
         }
 
-        public void Search(string input)
+        public List<CarModel> Search(string input)
         {
+            string[] terms = input.Split(' ');
 
+            foreach(CarModel car in cars)
+            {
+                /*if(car.ToString().Contains(input))
+                {
+                    //Console.WriteLine(car.ToString());
+                }
+
+                if(car.ToString().IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    Console.WriteLine(car.ToString());
+                }*/
+
+               Boolean hit = true;
+
+                foreach(string term in terms)
+                {
+                    if(!car.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    {
+                        hit = false;
+                    }
+                }
+
+                if(hit)
+                {
+                    Console.WriteLine(car.ToString());
+                }
+            }
+
+            return null;
         }
 
-        public void Sort()
+        public List<CarModel> Sort()
         {
-
+            return null;
         }
 
         public void PrintCars()

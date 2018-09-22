@@ -1,14 +1,9 @@
 ﻿using CI_Garage_Manager.Application.Models;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Controllers
 {
@@ -80,7 +75,6 @@ namespace CI_Garage_Manager.Application.Controllers
         public List<JobModel> GetJobs(int carID)
         {
             List<JobModel> jobList = new List<JobModel>();
-
             foreach(JobModel job in jobs)
             {
                 if(job.GetCarID() == carID)
@@ -95,6 +89,32 @@ namespace CI_Garage_Manager.Application.Controllers
         public List<JobModel> GetAllJobs()
         {
             return jobs;
+        }
+
+        public List<JobModel> Search(string input)
+        {
+            List<JobModel> jobList = new List<JobModel>();
+            string[] terms = input.Split(' ');
+
+            foreach (JobModel job in jobs)
+            {
+                Boolean hit = true;
+
+                foreach (string term in terms)
+                {
+                    if (!job.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    {
+                        hit = false;
+                    }
+                }
+
+                if (hit)
+                {
+                    jobList.Add(job);
+                }
+            }
+
+            return jobList;
         }
 
         public void PrintJobs()

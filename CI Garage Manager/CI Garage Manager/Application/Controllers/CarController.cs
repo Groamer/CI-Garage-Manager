@@ -1,14 +1,9 @@
 ﻿using CI_Garage_Manager.Application.Models;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CI_Garage_Manager.Application.Controllers
 {
@@ -56,7 +51,7 @@ namespace CI_Garage_Manager.Application.Controllers
                 fileStream.Close();
                 fileStream.Dispose();
             }
-            catch (Exception error)
+            catch(Exception error)
             {
                 Console.WriteLine(error);
             }
@@ -77,23 +72,19 @@ namespace CI_Garage_Manager.Application.Controllers
             cars.RemoveAt(ID);
         }
 
+        public List<CarModel> GetCars()
+        {
+            return cars;
+        }
+
         public List<CarModel> Search(string input)
         {
+            List<CarModel> carList = new List<CarModel>();
             string[] terms = input.Split(' ');
 
             foreach(CarModel car in cars)
             {
-                /*if(car.ToString().Contains(input))
-                {
-                    //Console.WriteLine(car.ToString());
-                }
-
-                if(car.ToString().IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    Console.WriteLine(car.ToString());
-                }*/
-
-               Boolean hit = true;
+                Boolean hit = true;
 
                 foreach(string term in terms)
                 {
@@ -105,16 +96,18 @@ namespace CI_Garage_Manager.Application.Controllers
 
                 if(hit)
                 {
-                    Console.WriteLine(car.ToString());
+                    carList.Add(car);
                 }
             }
 
-            return null;
+            return carList;
         }
 
         public List<CarModel> Sort()
         {
-            return null;
+            List<CarModel> carList = new List<CarModel>();
+
+            return carList;
         }
 
         public void PrintCars()

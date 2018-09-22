@@ -90,5 +90,10 @@ namespace CI_Garage_Manager.Application.Models
         {
             Console.WriteLine("Car ID: " + carID + "\nProblem: " + problem + "\n");
         }
+
+        override public string ToString()
+        {
+            return startDate + "\n" + endDate + "\n" + problem + "\n" + solution + "\n" + milage + "\n" + cost + "\n" + revenue;
+        }
     }
 }

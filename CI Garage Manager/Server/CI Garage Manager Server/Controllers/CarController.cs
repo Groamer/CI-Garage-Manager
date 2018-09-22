@@ -1,20 +1,20 @@
-﻿using CI_Garage_Manager.Application.Models;
+﻿using CI_Garage_Manager_Server.Models;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace CI_Garage_Manager.Application.Controllers
+namespace CI_Garage_Manager_Server.Controllers
 {
-    class JobController
+    class CarController
     {
-        private List<JobModel> jobs;
+        private List<CarModel> cars;
         private readonly string path;
 
-        public JobController()
+        public CarController()
         {
-            jobs = new List<JobModel>();
+            cars = new List<CarModel>();
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager";
 
             Load();
@@ -26,9 +26,9 @@ namespace CI_Garage_Manager.Application.Controllers
 
             try
             {
-                Stream stream = File.OpenWrite(path + "\\Jobs.dat");
+                Stream stream = File.OpenWrite(path + "\\Cars.dat");
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(stream, jobs);
+                binaryFormatter.Serialize(stream, cars);
                 stream.Flush();
                 stream.Close();
                 stream.Dispose();
@@ -44,65 +44,51 @@ namespace CI_Garage_Manager.Application.Controllers
             try
             {
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
-                FileStream fileStream = File.Open(path + "\\Jobs.dat", FileMode.Open);
-                object jobList = binaryFormatter.Deserialize(fileStream);
-                jobs = (List<JobModel>)jobList;
+                FileStream fileStream = File.Open(path + "\\Cars.dat", FileMode.Open);
+                object carList = binaryFormatter.Deserialize(fileStream);
+                cars = (List<CarModel>)carList;
                 fileStream.Flush();
                 fileStream.Close();
                 fileStream.Dispose();
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 Console.WriteLine(error);
             }
         }
 
-        public void Create(JobModel job)
+        public void Create(CarModel car)
         {
-            jobs.Add(job);
+            cars.Add(car);
         }
 
-        public void Edit(JobModel job, int ID)
+        public void Edit(CarModel car, int ID)
         {
-            jobs[ID] = job;
+            cars[ID] = car;
         }
 
         public void Remove(int ID)
         {
-            jobs.RemoveAt(ID);
+            cars.RemoveAt(ID);
         }
 
-        public List<JobModel> GetJobs(int carID)
+        public List<CarModel> GetCars()
         {
-            List<JobModel> jobList = new List<JobModel>();
-            foreach(JobModel job in jobs)
-            {
-                if(job.GetCarID() == carID)
-                {
-                    jobList.Add(job);
-                }
-            }
-
-            return jobList;
+            return cars;
         }
 
-        public List<JobModel> GetAllJobs()
+        public List<CarModel> Search(string input)
         {
-            return jobs;
-        }
-
-        public List<JobModel> Search(string input)
-        {
-            List<JobModel> jobList = new List<JobModel>();
+            List<CarModel> carList = new List<CarModel>();
             string[] terms = input.Split(' ');
 
-            foreach (JobModel job in jobs)
+            foreach (CarModel car in cars)
             {
                 Boolean hit = true;
 
                 foreach (string term in terms)
                 {
-                    if (!job.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    if (!car.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
                     {
                         hit = false;
                     }
@@ -110,18 +96,25 @@ namespace CI_Garage_Manager.Application.Controllers
 
                 if (hit)
                 {
-                    jobList.Add(job);
+                    carList.Add(car);
                 }
             }
 
-            return jobList;
+            return carList;
         }
 
-        public void PrintJobs()
+        public List<CarModel> Sort()
         {
-            foreach (JobModel job in jobs)
+            List<CarModel> carList = new List<CarModel>();
+
+            return carList;
+        }
+
+        public void PrintCars()
+        {
+            foreach (CarModel car in cars)
             {
-                job.PrintJob();
+                car.PrintCar();
             }
         }
     }

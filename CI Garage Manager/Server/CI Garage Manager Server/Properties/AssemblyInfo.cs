@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CI Garage Manager")]
+[assembly: AssemblyTitle("CI Garage Manager Server")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CI Garage Manager")]
+[assembly: AssemblyProduct("CI Garage Manager Server")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dc17a63c-908f-4aa9-8d41-826ed31b5c0a")]
+[assembly: Guid("636d8ac8-c7ae-409d-8c19-079301685ff0")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CI_Garage_Manager.Application.Models
+namespace CI_Garage_Manager_Server.Models
 {
     [Serializable]
     class JobModel

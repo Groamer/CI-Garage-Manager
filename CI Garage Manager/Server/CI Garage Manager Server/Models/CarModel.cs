@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CI_Garage_Manager.Application.Models
+namespace CI_Garage_Manager_Server.Models
 {
     [Serializable]
     class CarModel
@@ -11,7 +11,7 @@ namespace CI_Garage_Manager.Application.Models
         private string engine;
         private string vehicleID;
         private string plate;
-        
+
         public string GetMake()
         {
             return make;

@@ -1,4 +1,5 @@
-﻿using CI_Garage_Manager.Application.Controllers;
+﻿using CI_Garage_Manager_Server.Models;
+using CI_Garage_Manager_Server.Controllers;
 
 using System;
 using System.Net;
@@ -6,15 +7,30 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace CI_Garage_Manager
+namespace CI_Garage_Manager_Server
 {
     static class Server
     {
         [STAThread]
         static void Main()
         {
+            CarModel car = new CarModel();
+            car.SetMake("Volkswagen");
+            car.SetModel("Polo 6N");
+            car.SetPlate("PJ-PH-56");
+
+            JobModel job = new JobModel();
+            job.SetCarID(0);
+            job.SetStartDate("5 oktober 2017");
+            job.SetEndDate("20 november 2017");
+
             CarController carController = new CarController();
+            carController.Create(car);
+            carController.Save();
+
             JobController jobController = new JobController();
+            jobController.Create(job);
+            jobController.Save();
 
             AsynchronousSocketListener.StartListening();
         }

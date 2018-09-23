@@ -1,8 +1,12 @@
-﻿using System;
+﻿using CI_Garage_Manager.Models;
+
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 // State object for receiving data from remote device.  
 public class StateObject
@@ -55,12 +59,14 @@ public class AsynchronousClient
             connectDone.WaitOne();
 
             // Send test data to the remote device.  
-            Send(client, "This is a test<EOF>");
+            //Send(client, "JobEdit|" + TestJob() + "|0|<EOF>");
+            Send(client, "JobSave|<EOF>");
+            //Send(client, "JobRemove|0|<EOF>");
             sendDone.WaitOne();
 
             // Receive the response from the remote device.  
-            Receive(client);
-            receiveDone.WaitOne();
+            //Receive(client);
+            //receiveDone.WaitOne();
 
             // Write the response to the console.  
             Console.WriteLine("Response received : {0}", response);
@@ -70,7 +76,7 @@ public class AsynchronousClient
             client.Close();
 
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Console.WriteLine(e.ToString());
         }
@@ -182,6 +188,16 @@ public class AsynchronousClient
         {
             Console.WriteLine(e.ToString());
         }
+    }
+
+    public static string TestJob()
+    {
+        JobModel job = new JobModel();
+        job.SetProblem("Dit is een motherfucking dikke test");
+        job.SetCost(22.23f);
+        job.SetCarID(332);
+
+        return job.ToString();
     }
 
     public static int Main(String[] args)

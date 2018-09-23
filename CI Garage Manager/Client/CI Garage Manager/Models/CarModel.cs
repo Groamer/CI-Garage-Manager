@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CI_Garage_Manager_Server.Models
+namespace CI_Garage_Manager.Models
 {
     [Serializable]
     class CarModel

@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace CI_Garage_Manager_Server
 {
@@ -14,24 +16,6 @@ namespace CI_Garage_Manager_Server
         [STAThread]
         static void Main()
         {
-            CarModel car = new CarModel();
-            car.SetMake("Volkswagen");
-            car.SetModel("Polo 6N");
-            car.SetPlate("PJ-PH-56");
-
-            JobModel job = new JobModel();
-            job.SetCarID(0);
-            job.SetStartDate("5 oktober 2017");
-            job.SetEndDate("20 november 2017");
-
-            CarController carController = new CarController();
-            carController.Create(car);
-            carController.Save();
-
-            JobController jobController = new JobController();
-            jobController.Create(job);
-            jobController.Save();
-
             AsynchronousSocketListener.StartListening();
         }
     }
@@ -51,12 +35,13 @@ namespace CI_Garage_Manager_Server
 
     public class AsynchronousSocketListener
     {
+        private static JobController jobController = new JobController();
+
         // Thread signal.  
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public AsynchronousSocketListener()
         {
-
         }
 
         public static void StartListening()
@@ -80,7 +65,7 @@ namespace CI_Garage_Manager_Server
 
                 while (true)
                 {
-                    // Set the event to nonsignaled state.  
+                    // Set the event to nonsignaled state.
                     allDone.Reset();
 
                     // Start an asynchronous socket to listen for connections.  
@@ -147,8 +132,30 @@ namespace CI_Garage_Manager_Server
                     // client. Display it on the console.  
                     Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
                         content.Length, content);
+
+                    // Process protocol
+                    string[] protocol = content.Split('|');
+                    switch (protocol[0])
+                    {
+                        case "JobSave":
+                            jobController.Save();
+                            break;
+                        case "JobCreate":
+                            jobController.Create(protocol[1]);
+                            break;
+                        case "JobEdit":
+                            jobController.Edit(protocol[1], Int32.Parse(protocol[2]));
+                            break;
+                        case "JobRemove":
+                            jobController.Remove(Int32.Parse(protocol[1]));
+                            break;
+                        case "JobSearch":
+                            Send(handler, jobController.Search(protocol[1]));
+                            break;
+                    }
+
                     // Echo the data back to the client.  
-                    Send(handler, content);
+                    //Send(handler, content);
                 }
                 else
                 {
@@ -159,13 +166,10 @@ namespace CI_Garage_Manager_Server
             }
         }
 
-        private static void Send(Socket handler, String data)
+        private static void Send(Socket handler, byte[] data)
         {
-            // Convert the string data to byte data using ASCII encoding.  
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
-
             // Begin sending the data to the remote device.  
-            handler.BeginSend(byteData, 0, byteData.Length, 0,
+            handler.BeginSend(data, 0, data.Length, 0,
                 new AsyncCallback(SendCallback), handler);
         }
 

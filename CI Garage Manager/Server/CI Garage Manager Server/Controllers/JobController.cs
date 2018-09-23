@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -9,11 +10,15 @@ namespace CI_Garage_Manager_Server.Controllers
 {
     class JobController
     {
+        BinaryFormatter binaryFormatter;
+
         private List<JobModel> jobs;
         private readonly string path;
 
         public JobController()
         {
+            binaryFormatter = new BinaryFormatter();
+
             jobs = new List<JobModel>();
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager";
 
@@ -27,7 +32,6 @@ namespace CI_Garage_Manager_Server.Controllers
             try
             {
                 Stream stream = File.OpenWrite(path + "\\Jobs.dat");
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(stream, jobs);
                 stream.Flush();
                 stream.Close();
@@ -39,11 +43,10 @@ namespace CI_Garage_Manager_Server.Controllers
             }
         }
 
-        public void Load()
+        private void Load()
         {
             try
             {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
                 FileStream fileStream = File.Open(path + "\\Jobs.dat", FileMode.Open);
                 object jobList = binaryFormatter.Deserialize(fileStream);
                 jobs = (List<JobModel>)jobList;
@@ -57,13 +60,37 @@ namespace CI_Garage_Manager_Server.Controllers
             }
         }
 
-        public void Create(JobModel job)
+        public void Create(string jobString)
         {
+            JobModel job = new JobModel();
+            string[] jobDetails = jobString.Split('\n');
+
+            job.SetCarID(Int32.Parse(jobDetails[0]));
+            job.SetStartDate(jobDetails[1]);
+            job.SetEndDate(jobDetails[2]);
+            job.SetProblem(jobDetails[3]);
+            job.SetSolution(jobDetails[4]);
+            job.SetMilage(Int32.Parse(jobDetails[5]));
+            job.SetCost(float.Parse(jobDetails[6], CultureInfo.InvariantCulture.NumberFormat));
+            job.SetRevenue(float.Parse(jobDetails[7], CultureInfo.InvariantCulture.NumberFormat));
+
             jobs.Add(job);
         }
 
-        public void Edit(JobModel job, int ID)
+        public void Edit(string jobString, int ID)
         {
+            JobModel job = new JobModel();
+            string[] jobDetails = jobString.Split('\n');
+
+            job.SetCarID(Int32.Parse(jobDetails[0]));
+            job.SetStartDate(jobDetails[1]);
+            job.SetEndDate(jobDetails[2]);
+            job.SetProblem(jobDetails[3]);
+            job.SetSolution(jobDetails[4]);
+            job.SetMilage(Int32.Parse(jobDetails[5]));
+            job.SetCost(float.Parse(jobDetails[6], CultureInfo.InvariantCulture.NumberFormat));
+            job.SetRevenue(float.Parse(jobDetails[7], CultureInfo.InvariantCulture.NumberFormat));
+
             jobs[ID] = job;
         }
 
@@ -91,8 +118,9 @@ namespace CI_Garage_Manager_Server.Controllers
             return jobs;
         }
 
-        public List<JobModel> Search(string input)
+        public byte[] Search(string input)
         {
+            MemoryStream memoryStream = new MemoryStream();
             List<JobModel> jobList = new List<JobModel>();
             string[] terms = input.Split(' ');
 
@@ -114,14 +142,19 @@ namespace CI_Garage_Manager_Server.Controllers
                 }
             }
 
-            return jobList;
+            binaryFormatter.Serialize(memoryStream, jobList);
+            memoryStream.Flush();
+            memoryStream.Close();
+            memoryStream.Dispose();
+
+            return memoryStream.ToArray();
         }
 
         public void PrintJobs()
         {
             foreach (JobModel job in jobs)
             {
-                job.PrintJob();
+                Console.WriteLine(job.ToString());
             }
         }
     }

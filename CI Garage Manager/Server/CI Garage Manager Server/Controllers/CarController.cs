@@ -114,7 +114,7 @@ namespace CI_Garage_Manager_Server.Controllers
         {
             foreach (CarModel car in cars)
             {
-                car.PrintCar();
+                Console.WriteLine(car.ToString());
             }
         }
     }

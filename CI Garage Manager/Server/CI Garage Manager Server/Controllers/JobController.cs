@@ -99,9 +99,14 @@ namespace CI_Garage_Manager_Server.Controllers
             jobs.RemoveAt(ID);
         }
 
-        public List<JobModel> GetJobs(int carID)
+        public byte[] GetJobs(int carID, int page, int shownItems)
         {
+            MemoryStream memoryStream = new MemoryStream();
             List<JobModel> jobList = new List<JobModel>();
+            List<JobModel> jobSelection = new List<JobModel>();
+            int firstItem = (page * shownItems) - shownItems;
+            int lastItem = firstItem + shownItems;
+
             foreach (JobModel job in jobs)
             {
                 if (job.GetCarID() == carID)
@@ -110,12 +115,42 @@ namespace CI_Garage_Manager_Server.Controllers
                 }
             }
 
-            return jobList;
+            //TEMP TEST
+            Console.WriteLine("Amount of jobs for given car: " + jobList.Count);
+
+            for (int i = firstItem; i < lastItem; i ++)
+            {
+                if(i + 1 > jobList.Count)
+                {
+                    //TEMP TEST
+                    Console.WriteLine("Out of bounds");
+
+                    break;
+                }
+                else
+                {
+                    jobSelection.Add(jobList[i]);
+                }
+            }
+
+            binaryFormatter.Serialize(memoryStream, jobSelection);
+            memoryStream.Flush();
+            memoryStream.Close();
+            memoryStream.Dispose();
+
+            return memoryStream.ToArray();
         }
 
-        public List<JobModel> GetAllJobs()
+        public byte[] GetAllJobs()
         {
-            return jobs;
+            MemoryStream memoryStream = new MemoryStream();
+
+            binaryFormatter.Serialize(memoryStream, jobs);
+            memoryStream.Flush();
+            memoryStream.Close();
+            memoryStream.Dispose();
+
+            return memoryStream.ToArray();
         }
 
         public byte[] Search(string input)

@@ -1,5 +1,4 @@
-﻿using CI_Garage_Manager_Server.Models;
-using CI_Garage_Manager_Server.Controllers;
+﻿using CI_Garage_Manager_Server.Controllers;
 
 using System;
 using System.Net;
@@ -51,7 +50,7 @@ namespace CI_Garage_Manager_Server
             // running the listener is "host.contoso.com".  
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 12345);
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(ipAddress.AddressFamily,
@@ -148,6 +147,9 @@ namespace CI_Garage_Manager_Server
                             break;
                         case "JobRemove":
                             jobController.Remove(Int32.Parse(protocol[1]));
+                            break;
+                        case "JobGet":
+                            Send(handler, jobController.GetJobs(Int32.Parse(protocol[1]), Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
                             break;
                         case "JobSearch":
                             Send(handler, jobController.Search(protocol[1]));

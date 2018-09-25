@@ -24,7 +24,7 @@ public class StateObject
 public class AsynchronousClient
 {
     // The port number for the remote device.  
-    private const int port = 6969;
+    private const int port = 12345;
 
     // ManualResetEvent instances signal completion.  
     private static ManualResetEvent connectDone =
@@ -45,7 +45,7 @@ public class AsynchronousClient
             // Establish the remote endpoint for the socket.  
             // The name of the   
             // remote device is "host.contoso.com".  
-            IPHostEntry ipHostInfo = Dns.GetHostEntry("192.168.0.101");
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("127.0.0.1");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
@@ -62,11 +62,13 @@ public class AsynchronousClient
             //Send(client, "JobEdit|" + TestJob() + "|0|<EOF>");
             Send(client, "JobSave|<EOF>");
             //Send(client, "JobRemove|0|<EOF>");
+            ///
+            ///Send(client, "JobGet|1|1|20|<EOF>");
             sendDone.WaitOne();
 
             // Receive the response from the remote device.  
-            //Receive(client);
-            //receiveDone.WaitOne();
+            Receive(client);
+            receiveDone.WaitOne();
 
             // Write the response to the console.  
             Console.WriteLine("Response received : {0}", response);

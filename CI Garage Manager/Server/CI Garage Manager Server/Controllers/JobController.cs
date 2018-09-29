@@ -1,8 +1,7 @@
-﻿using CI_Garage_Manager_Server.Models;
+﻿using CI_Garage_Manager.Models;
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -20,7 +19,7 @@ namespace CI_Garage_Manager_Server.Controllers
             binaryFormatter = new BinaryFormatter();
 
             jobs = new List<JobModel>();
-            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager";
+            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager Server";
 
             Load();
         }
@@ -71,8 +70,8 @@ namespace CI_Garage_Manager_Server.Controllers
             job.SetProblem(jobDetails[3]);
             job.SetSolution(jobDetails[4]);
             job.SetMilage(Int32.Parse(jobDetails[5]));
-            job.SetCost(float.Parse(jobDetails[6], CultureInfo.InvariantCulture.NumberFormat));
-            job.SetRevenue(float.Parse(jobDetails[7], CultureInfo.InvariantCulture.NumberFormat));
+            job.SetCost(float.Parse(jobDetails[6]));
+            job.SetRevenue(float.Parse(jobDetails[7]));
 
             jobs.Add(job);
         }
@@ -88,22 +87,35 @@ namespace CI_Garage_Manager_Server.Controllers
             job.SetProblem(jobDetails[3]);
             job.SetSolution(jobDetails[4]);
             job.SetMilage(Int32.Parse(jobDetails[5]));
-            job.SetCost(float.Parse(jobDetails[6], CultureInfo.InvariantCulture.NumberFormat));
-            job.SetRevenue(float.Parse(jobDetails[7], CultureInfo.InvariantCulture.NumberFormat));
+            job.SetCost(float.Parse(jobDetails[6]));
+            job.SetRevenue(float.Parse(jobDetails[7]));
 
-            jobs[ID] = job;
+            try
+            {
+                jobs[ID] = job;
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine(error);
+            }
         }
 
         public void Remove(int ID)
         {
-            jobs.RemoveAt(ID);
+            try
+            {
+                jobs.RemoveAt(ID);
+            }
+            catch(Exception error)
+            {
+                Console.WriteLine(error);
+            }
         }
 
-        public byte[] GetJobs(int carID, int page, int shownItems)
+        public string Get(int carID, int page, int shownItems)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            List<JobModel> jobList = new List<JobModel>();
             List<JobModel> jobSelection = new List<JobModel>();
+            string jobList = "JobList";
             int firstItem = (page * shownItems) - shownItems;
             int lastItem = firstItem + shownItems;
 
@@ -111,53 +123,78 @@ namespace CI_Garage_Manager_Server.Controllers
             {
                 if (job.GetCarID() == carID)
                 {
-                    jobList.Add(job);
+                    jobSelection.Add(job);
                 }
             }
 
-            //TEMP TEST
-            Console.WriteLine("Amount of jobs for given car: " + jobList.Count);
-
             for (int i = firstItem; i < lastItem; i ++)
             {
-                if(i + 1 > jobList.Count)
+                if(i + 1 > jobSelection.Count)
                 {
-                    //TEMP TEST
-                    Console.WriteLine("Out of bounds");
-
                     break;
                 }
                 else
                 {
-                    jobSelection.Add(jobList[i]);
+                    jobList += "|" + jobSelection[i].ToString();
                 }
             }
 
-            binaryFormatter.Serialize(memoryStream, jobSelection);
-            memoryStream.Flush();
-            memoryStream.Close();
-            memoryStream.Dispose();
-
-            return memoryStream.ToArray();
+            return jobList;
         }
 
-        public byte[] GetAllJobs()
+        public string GetAll()
         {
-            MemoryStream memoryStream = new MemoryStream();
+            string jobList = "JobList";
 
-            binaryFormatter.Serialize(memoryStream, jobs);
-            memoryStream.Flush();
-            memoryStream.Close();
-            memoryStream.Dispose();
+            foreach(JobModel job in jobs)
+            {
+                jobList += "|" + job.ToString();
+            }
 
-            return memoryStream.ToArray();
+            return jobList;
         }
 
-        public byte[] Search(string input)
+        public string Search(string input, int carID, int page, int shownItems)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            List<JobModel> jobList = new List<JobModel>();
+            List<JobModel> jobSelection = new List<JobModel>();
             string[] terms = input.Split(' ');
+            string jobList = "JobList";
+            int firstItem = (page * shownItems) - shownItems;
+            int lastItem = firstItem + shownItems;
+
+            foreach (JobModel job in jobs)
+            {
+                if (job.GetCarID() == carID)
+                {
+                    jobSelection.Add(job);
+                }
+            }
+
+            foreach (JobModel job in jobSelection)
+            {
+                Boolean hit = true;
+
+                foreach (string term in terms)
+                {
+                    if (!job.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    {
+                        hit = false;
+                    }
+                }
+
+                if (hit)
+                {
+                    jobList += "|" + job.ToString();
+                }
+            }
+
+            return jobList;
+        }
+
+        public string SearchAll(string input)
+        {
+            string[] terms = input.Split(' ');
+            string jobList = "JobList";
 
             foreach (JobModel job in jobs)
             {
@@ -173,16 +210,11 @@ namespace CI_Garage_Manager_Server.Controllers
 
                 if (hit)
                 {
-                    jobList.Add(job);
+                    jobList += "|" + job.ToString();
                 }
             }
 
-            binaryFormatter.Serialize(memoryStream, jobList);
-            memoryStream.Flush();
-            memoryStream.Close();
-            memoryStream.Dispose();
-
-            return memoryStream.ToArray();
+            return jobList;
         }
 
         public void PrintJobs()

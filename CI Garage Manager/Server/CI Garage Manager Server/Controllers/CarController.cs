@@ -9,13 +9,17 @@ namespace CI_Garage_Manager_Server.Controllers
 {
     class CarController
     {
+        BinaryFormatter binaryFormatter;
+
         private List<CarModel> cars;
         private readonly string path;
 
         public CarController()
         {
+            binaryFormatter = new BinaryFormatter();
+
             cars = new List<CarModel>();
-            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager";
+            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDoc‌​uments) + "\\ComputerInfor\\CI Garage Manager Server";
 
             Load();
         }
@@ -27,7 +31,6 @@ namespace CI_Garage_Manager_Server.Controllers
             try
             {
                 Stream stream = File.OpenWrite(path + "\\Cars.dat");
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(stream, cars);
                 stream.Flush();
                 stream.Close();
@@ -43,7 +46,6 @@ namespace CI_Garage_Manager_Server.Controllers
         {
             try
             {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
                 FileStream fileStream = File.Open(path + "\\Cars.dat", FileMode.Open);
                 object carList = binaryFormatter.Deserialize(fileStream);
                 cars = (List<CarModel>)carList;
@@ -57,30 +59,83 @@ namespace CI_Garage_Manager_Server.Controllers
             }
         }
 
-        public void Create(CarModel car)
+        public void Create(string carString)
         {
+            CarModel car = new CarModel();
+            string[] carDetails = carString.Split('\n');
+
+            car.SetMake(carDetails[0]);
+            car.SetModel(carDetails[1]);
+            car.SetYear(Int32.Parse(carDetails[2]));
+            car.SetEngine(carDetails[3]);
+            car.SetVehicleID(carDetails[4]);
+            car.SetPlate(carDetails[5]);
+
             cars.Add(car);
         }
 
-        public void Edit(CarModel car, int ID)
+        public void Edit(string carString, int ID)
         {
-            cars[ID] = car;
+            CarModel car = new CarModel();
+            string[] carDetails = carString.Split('\n');
+
+            car.SetMake(carDetails[0]);
+            car.SetModel(carDetails[1]);
+            car.SetYear(Int32.Parse(carDetails[2]));
+            car.SetEngine(carDetails[3]);
+            car.SetVehicleID(carDetails[4]);
+            car.SetPlate(carDetails[5]);
+
+            try
+            {
+                cars[ID] = car;
+            }
+            catch(Exception error)
+            {
+                Console.WriteLine(error);
+            }
         }
 
         public void Remove(int ID)
         {
-            cars.RemoveAt(ID);
+            try
+            {
+                cars.RemoveAt(ID);
+            }
+            catch(Exception error)
+            {
+                Console.WriteLine(error);
+            }
         }
 
-        public List<CarModel> GetCars()
+        public string Get(int page, int shownItems)
         {
-            return cars;
+            string carList = "CarList";
+            int firstItem = (page * shownItems) - shownItems;
+            int lastItem = firstItem + shownItems;
+
+            for (int i = firstItem; i < lastItem; i++)
+            {
+                if (i + 1 > cars.Count)
+                {
+                    break;
+                }
+                else
+                {
+                    carList += "|" + cars[i].ToString();
+                }
+            }
+
+            return carList;
         }
 
-        public List<CarModel> Search(string input)
+        public string Search(string input, int page, int shownItems)
         {
             List<CarModel> carList = new List<CarModel>();
             string[] terms = input.Split(' ');
+            string carString = "CarList";
+            int firstItem = (page * shownItems) - shownItems;
+            int lastItem = firstItem + shownItems;
 
             foreach (CarModel car in cars)
             {
@@ -100,14 +155,19 @@ namespace CI_Garage_Manager_Server.Controllers
                 }
             }
 
-            return carList;
-        }
+            for (int i = firstItem; i < lastItem; i++)
+            {
+                if (i + 1 > carList.Count)
+                {
+                    break;
+                }
+                else
+                {
+                    carString += "|" + carList[i].ToString();
+                }
+            }
 
-        public List<CarModel> Sort()
-        {
-            List<CarModel> carList = new List<CarModel>();
-
-            return carList;
+            return carString;
         }
 
         public void PrintCars()

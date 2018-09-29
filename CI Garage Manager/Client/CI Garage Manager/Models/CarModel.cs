@@ -3,7 +3,7 @@
 namespace CI_Garage_Manager.Models
 {
     [Serializable]
-    class CarModel
+    public class CarModel
     {
         private string make;
         private string model;

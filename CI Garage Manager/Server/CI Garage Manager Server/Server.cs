@@ -1,12 +1,12 @@
 ﻿using CI_Garage_Manager_Server.Controllers;
+using CI_Garage_Manager_Server.Views;
 
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+using System.Windows.Forms;
 
 namespace CI_Garage_Manager_Server
 {
@@ -15,25 +15,30 @@ namespace CI_Garage_Manager_Server
         [STAThread]
         static void Main()
         {
-            AsynchronousSocketListener.StartListening();
+            Thread serverThread = new Thread(new ThreadStart(AsynchronousSocketListener.StartListening));
+            serverThread.Start();
+
+            Thread formThread = new Thread(new ThreadStart(Forms));
+            formThread.Start();
+        }
+
+        private static void Forms()
+        {
+            Application.Run(new ControlPanel());
         }
     }
 
-    // State object for reading client data asynchronously  
     public class StateObject
     {
-        // Client  socket.  
         public Socket workSocket = null;
-        // Size of receive buffer.  
         public const int BufferSize = 1024;
-        // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
-        // Received data string.  
         public StringBuilder sb = new StringBuilder();
     }
 
     public class AsynchronousSocketListener
     {
+        private static CarController carController = new CarController();
         private static JobController jobController = new JobController();
 
         // Thread signal.  
@@ -47,7 +52,6 @@ namespace CI_Garage_Manager_Server
         {
             // Establish the local endpoint for the socket.  
             // The DNS name of the computer  
-            // running the listener is "host.contoso.com".  
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 12345);
@@ -132,32 +136,70 @@ namespace CI_Garage_Manager_Server
                     Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
                         content.Length, content);
 
-                    // Process protocol
+                    // Process protocol and call methods.
                     string[] protocol = content.Split('|');
                     switch (protocol[0])
                     {
+                        case "Connect":
+                            Send(handler, "OK");
+                            break;
+
+                        case "CarSave":
+                            carController.Save();
+                            Send(handler, "OK");
+                            break;
+                        case "CarCreate":
+                            carController.Create(protocol[1]);
+                            Send(handler, "OK");
+                            break;
+                        case "CarEdit":
+                            carController.Edit(protocol[1], Int32.Parse(protocol[2]));
+                            Send(handler, "OK");
+                            break;
+                        case "CarRemove":
+                            carController.Remove(Int32.Parse(protocol[1]));
+                            Send(handler, "OK");
+                            break;
+                        case "CarGet":
+                            Send(handler, carController.Get(Int32.Parse(protocol[1]), Int32.Parse(protocol[2])));
+                            break;
+                        case "CarSearch":
+                            Send(handler, carController.Search(protocol[1], Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
+                            break;
+
                         case "JobSave":
                             jobController.Save();
+                            Send(handler, "OK");
                             break;
                         case "JobCreate":
                             jobController.Create(protocol[1]);
+                            Send(handler, "OK");
                             break;
                         case "JobEdit":
                             jobController.Edit(protocol[1], Int32.Parse(protocol[2]));
+                            Send(handler, "OK");
                             break;
                         case "JobRemove":
                             jobController.Remove(Int32.Parse(protocol[1]));
+                            Send(handler, "OK");
                             break;
                         case "JobGet":
-                            Send(handler, jobController.GetJobs(Int32.Parse(protocol[1]), Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
+                            Send(handler, jobController.Get(Int32.Parse(protocol[1]), Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
+                            break;
+                        case "JobGetAll":
+                            Send(handler, jobController.GetAll());
                             break;
                         case "JobSearch":
-                            Send(handler, jobController.Search(protocol[1]));
+                            Send(handler, jobController.Search(protocol[1], Int32.Parse(protocol[2]), Int32.Parse(protocol[3]), Int32.Parse(protocol[4])));
+                            break;
+                        case "JobSearchAll":
+                            Send(handler, jobController.SearchAll(protocol[1]));
+                            break;
+
+                        default:
+                            Send(handler, "ERROR");
                             break;
                     }
-
-                    // Echo the data back to the client.  
-                    //Send(handler, content);
                 }
                 else
                 {
@@ -168,10 +210,12 @@ namespace CI_Garage_Manager_Server
             }
         }
 
-        private static void Send(Socket handler, byte[] data)
+        private static void Send(Socket handler, string data)
         {
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+
             // Begin sending the data to the remote device.  
-            handler.BeginSend(data, 0, data.Length, 0,
+            handler.BeginSend(bytes, 0, data.Length, 0,
                 new AsyncCallback(SendCallback), handler);
         }
 

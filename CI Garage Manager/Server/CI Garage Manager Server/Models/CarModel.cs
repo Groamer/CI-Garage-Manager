@@ -3,7 +3,7 @@
 namespace CI_Garage_Manager_Server.Models
 {
     [Serializable]
-    class CarModel
+    public class CarModel
     {
         private string make;
         private string model;
@@ -68,7 +68,7 @@ namespace CI_Garage_Manager_Server.Models
 
         override public string ToString()
         {
-            return make + "\n" + model + "\n" + year + "\n" + engine + "\n" + vehicleID + "\n" + plate;
+            return make + "\n" + model + "\n" + year.ToString() + "\n" + engine + "\n" + vehicleID + "\n" + plate;
         }
     }
 }

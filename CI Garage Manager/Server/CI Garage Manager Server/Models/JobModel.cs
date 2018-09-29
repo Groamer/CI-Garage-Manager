@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace CI_Garage_Manager_Server.Models
+namespace CI_Garage_Manager.Models
 {
     [Serializable]
-    class JobModel
+    public class JobModel
     {
         private int carID;
         private string startDate;
@@ -88,7 +88,7 @@ namespace CI_Garage_Manager_Server.Models
 
         override public string ToString()
         {
-            return carID + "\n" + startDate + "\n" + endDate + "\n" + problem + "\n" + solution + "\n" + milage + "\n" + cost + "\n" + revenue;
+            return carID.ToString() + "\n" + startDate + "\n" + endDate + "\n" + problem + "\n" + solution + "\n" + milage.ToString() + "\n" + cost.ToString() + "\n" + revenue.ToString();
         }
     }
 }

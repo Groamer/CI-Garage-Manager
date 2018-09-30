@@ -1,6 +1,7 @@
 ﻿using CI_Garage_Manager.Controllers;
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace CI_Garage_Manager.Views
@@ -64,6 +65,17 @@ namespace CI_Garage_Manager.Views
                 PortText.Text = "";
                 Console.WriteLine(error);
             }
+        }
+
+        private void ToolStripMenuInformation_Click(object sender, EventArgs e)
+        {
+            Information information = new Information();
+            information.ShowDialog();
+        }
+
+        private void ToolStripMenuComputerInfor_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://www.computerinfor.nl");
         }
     }
 }

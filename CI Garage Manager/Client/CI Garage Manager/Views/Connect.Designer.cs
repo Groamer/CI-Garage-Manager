@@ -34,7 +34,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ConnectButton = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuInformation = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuComputerInfor = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,20 +78,53 @@
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(12, 226);
+            this.ConnectButton.Location = new System.Drawing.Point(312, 226);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(56, 23);
+            this.ConnectButton.Size = new System.Drawing.Size(60, 23);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
             this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemHelp});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // ToolStripMenuItemHelp
+            // 
+            this.ToolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuInformation,
+            this.ToolStripMenuComputerInfor});
+            this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(44, 20);
+            this.ToolStripMenuItemHelp.Text = "Help";
+            // 
+            // ToolStripMenuInformation
+            // 
+            this.ToolStripMenuInformation.Name = "ToolStripMenuInformation";
+            this.ToolStripMenuInformation.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuInformation.Text = "Information";
+            this.ToolStripMenuInformation.Click += new System.EventHandler(this.ToolStripMenuInformation_Click);
+            // 
+            // ToolStripMenuComputerInfor
+            // 
+            this.ToolStripMenuComputerInfor.Name = "ToolStripMenuComputerInfor";
+            this.ToolStripMenuComputerInfor.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuComputerInfor.Text = "ComputerInfor";
+            this.ToolStripMenuComputerInfor.Click += new System.EventHandler(this.ToolStripMenuComputerInfor_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::CI_Garage_Manager.Properties.Resources.Markomi;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 27);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(360, 117);
+            this.pictureBox1.Size = new System.Drawing.Size(360, 102);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
@@ -103,13 +141,17 @@
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.PortText);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "Connect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connect - CI Garage Manager";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -124,5 +166,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHelp;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuInformation;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuComputerInfor;
     }
 }

@@ -38,12 +38,69 @@ namespace CI_Garage_Manager.Views
 
         private void CreateCar_Click(object sender, EventArgs e)
         {
-            //carsController.CreateCar();
+            CarDetails carDetails = new CarDetails();
+            carDetails.ShowDialog();
+
+            UpdateCars();
+            UpdateListView();
+        }
+
+        private void Edit_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedIndexCollection indices = ListViewCar.SelectedIndices;
+            CarModel car = cars[indices[0]];
+
+            CarDetails carDetails = new CarDetails(car.ToString());
+            carDetails.ShowDialog();
+
+            UpdateCars();
+            UpdateListView();
+        }
+
+        private void Remove_Click(object sender, EventArgs e)
+        {
+            if (ListViewCar.SelectedItems.Count == 1)
+            {
+                var confirmation = MessageBox.Show("Do you really want to remove the selected car?",
+                    "Confirm Removal",
+                    MessageBoxButtons.YesNo);
+
+                if(confirmation == DialogResult.Yes)
+                {
+                    ListView.SelectedIndexCollection indices = ListViewCar.SelectedIndices;
+                    CarModel car = cars[indices[0]];
+                    carsController.RemoveCar(car);
+
+                    UpdateCars();
+                    UpdateListView();
+                }
+            }
+            else
+            {
+                var confirmation = MessageBox.Show("Do you really want to remove the selection of " + ListViewCar.SelectedItems.Count.ToString() + " cars?",
+                    "Confirm Removal",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmation == DialogResult.Yes)
+                {
+                    ListView.SelectedIndexCollection indices = ListViewCar.SelectedIndices;
+
+                    foreach(int index in indices)
+                    {
+                        CarModel car = cars[index];
+                        carsController.RemoveCar(car);
+                    }
+
+                    UpdateCars();
+                    UpdateListView();
+                }
+            }
         }
 
         private void InitListView()
         {
             ListViewCar.View = View.Details;
+            ListViewCar.HideSelection = false;
             ListViewCar.FullRowSelect = true;
 
             ListViewCar.Columns.Add("Make", 100, HorizontalAlignment.Left);
@@ -80,14 +137,6 @@ namespace CI_Garage_Manager.Views
             }
         }
 
-        private void Button10_Click(object sender, EventArgs e)
-        {
-            page = 1;
-            shownItems = 10;
-            UpdateCars();
-            UpdateListView();
-        }
-
         private void Button20_Click(object sender, EventArgs e)
         {
             page = 1;
@@ -100,6 +149,31 @@ namespace CI_Garage_Manager.Views
         {
             page = 1;
             shownItems = 50;
+            UpdateCars();
+            UpdateListView();
+        }
+
+        private void Button100_Click(object sender, EventArgs e)
+        {
+            page = 1;
+            shownItems = 100;
+            UpdateCars();
+            UpdateListView();
+        }
+
+        private void ButtonPrevious_Click(object sender, EventArgs e)
+        {
+            if (page > 1)
+            {
+                page--;
+            }
+            UpdateCars();
+            UpdateListView();
+        }
+
+        private void ButtonNext_Click(object sender, EventArgs e)
+        {
+            page++;
             UpdateCars();
             UpdateListView();
         }
@@ -123,23 +197,6 @@ namespace CI_Garage_Manager.Views
             }
         }
 
-        private void ButtonPrevious_Click(object sender, EventArgs e)
-        {
-            if(page > 1)
-            {
-                page --;
-            }
-            UpdateCars();
-            UpdateListView();
-        }
-
-        private void ButtonNext_Click(object sender, EventArgs e)
-        {
-            page ++;
-            UpdateCars();
-            UpdateListView();
-        }
-
         private void LabelItems_Click(object sender, EventArgs e)
         {
 
@@ -150,6 +207,28 @@ namespace CI_Garage_Manager.Views
             page = 1;
             UpdateCars();
             UpdateListView();
+        }
+
+        private void ListViewCar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(ListViewCar.SelectedItems.Count)
+            {
+                case 0:
+                    ButtonEdit.Enabled = false;
+                    ButtonRemove.Enabled = false;
+                    ButtonRemove.Text = "Remove Car";
+                    break;
+                case 1:
+                    ButtonEdit.Enabled = true;
+                    ButtonRemove.Enabled = true;
+                    ButtonRemove.Text = "Remove Car";
+                    break;
+                case 2:
+                    ButtonEdit.Enabled = false;
+                    ButtonRemove.Enabled = true;
+                    ButtonRemove.Text = "Remove Cars";
+                    break;
+            }
         }
     }
 }

@@ -33,15 +33,16 @@ namespace CI_Garage_Manager.Controllers
             Console.WriteLine(client.SendCommand("CarCreate|" + car.ToString()));
         }
 
-        public void EditCar(int index)
-        {
-
-        }
-
-        public void RemoveCar(int index)
+        public void EditCar(CarModel carNew, string carOld)
         {
             Client client = new Client();
-            Console.WriteLine(client.SendCommand("CarRemove|" + index.ToString()));
+            Console.WriteLine(client.SendCommand("CarEdit|" + carNew.ToString() + "|" + carOld));
+        }
+
+        public void RemoveCar(CarModel car)
+        {
+            Client client = new Client();
+            Console.WriteLine(client.SendCommand("CarRemove|" + car.ToString()));
         }
 
         private List<CarModel> ExtractCars(string data)

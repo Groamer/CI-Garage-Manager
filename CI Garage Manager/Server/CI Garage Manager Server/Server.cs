@@ -153,11 +153,11 @@ namespace CI_Garage_Manager_Server
                             Send(handler, "OK");
                             break;
                         case "CarEdit":
-                            carController.Edit(protocol[1], Int32.Parse(protocol[2]));
+                            carController.Edit(protocol[1], protocol[2]);
                             Send(handler, "OK");
                             break;
                         case "CarRemove":
-                            carController.Remove(Int32.Parse(protocol[1]));
+                            carController.Remove(protocol[1]);
                             Send(handler, "OK");
                             break;
                         case "CarGet":

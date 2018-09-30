@@ -1,11 +1,6 @@
 ﻿using CI_Garage_Manager.Controllers;
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace CI_Garage_Manager.Views
@@ -27,7 +22,9 @@ namespace CI_Garage_Manager.Views
         {
             if (AddressText.Text == "" || PortText.Text == "")
             {
-                MessageBox.Show("Please fill in a server address and a port number to connect to the server.", "Missing Values", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please fill in a server address and a port number to connect to the server.",
+                    "Missing Values",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else
             {
@@ -43,14 +40,30 @@ namespace CI_Garage_Manager.Views
                 }
                 else
                 {
-                    MessageBox.Show("Could not connect to the specified server address and port number.", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Could not connect to the specified server address and port number.",
+                        "Connection Error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void Connect_Load(object sender, EventArgs e)
+        private void PortText_TextChanged(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (PortText.Text != "")
+                {
+                    Int32.Parse(PortText.Text);
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Please fill in numbers only.",
+                    "Wrong Value", MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                PortText.Text = "";
+                Console.WriteLine(error);
+            }
         }
     }
 }

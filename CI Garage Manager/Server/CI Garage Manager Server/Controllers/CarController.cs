@@ -74,10 +74,10 @@ namespace CI_Garage_Manager_Server.Controllers
             cars.Add(car);
         }
 
-        public void Edit(string carString, int ID)
+        public void Edit(string carStringNew, string carStringOld)
         {
             CarModel car = new CarModel();
-            string[] carDetails = carString.Split('\n');
+            string[] carDetails = carStringNew.Split('\n');
 
             car.SetMake(carDetails[0]);
             car.SetModel(carDetails[1]);
@@ -86,25 +86,24 @@ namespace CI_Garage_Manager_Server.Controllers
             car.SetVehicleID(carDetails[4]);
             car.SetPlate(carDetails[5]);
 
-            try
+            for(int i = 0; i < cars.Count; i ++)
             {
-                cars[ID] = car;
-            }
-            catch(Exception error)
-            {
-                Console.WriteLine(error);
+                if(cars[i].ToString() == carStringOld)
+                {
+                    cars[i] = car;
+                }
             }
         }
 
-        public void Remove(int ID)
+        public void Remove(string carString)
         {
-            try
+            for(int i = 0; i < cars.Count; i ++)
             {
-                cars.RemoveAt(ID);
-            }
-            catch(Exception error)
-            {
-                Console.WriteLine(error);
+                if (cars[i].ToString() == carString)
+                {
+                    cars.RemoveAt(i);
+                    break;
+                }
             }
         }
 

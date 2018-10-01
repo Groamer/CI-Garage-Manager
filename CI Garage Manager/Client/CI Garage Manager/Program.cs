@@ -1,11 +1,6 @@
-﻿using CI_Garage_Manager.Controllers;
-using CI_Garage_Manager.Views;
+﻿using CI_Garage_Manager.Views;
 
 using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CI_Garage_Manager
@@ -17,8 +12,6 @@ namespace CI_Garage_Manager
         {
             Connect connect = new Connect();
             Application.Run(connect);
-
-            
         }
     }
 }

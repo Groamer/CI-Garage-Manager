@@ -22,14 +22,14 @@ namespace CI_Garage_Manager.Views
         public CarDetails()
         {
             InitializeComponent();
-            LabelTitle.Text = "Create Car";
+            this.Text = "Create Car - CI Garage Manager";
             carsController = new CarsController();
             car = new CarModel();
         }
         public CarDetails(string carString)
         {
             InitializeComponent();
-            LabelTitle.Text = "Edit Car";
+            this.Text = "Edit Car - CI Garage Manager";
             car = new CarModel();
             carsController = new CarsController();
             this.carString = carString;

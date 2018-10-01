@@ -43,13 +43,12 @@
             this.TextBoxPlate = new System.Windows.Forms.TextBox();
             this.ButtonSave = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
-            this.LabelTitle = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // LabelMake
             // 
             this.LabelMake.AutoSize = true;
-            this.LabelMake.Location = new System.Drawing.Point(12, 55);
+            this.LabelMake.Location = new System.Drawing.Point(12, 15);
             this.LabelMake.Name = "LabelMake";
             this.LabelMake.Size = new System.Drawing.Size(34, 13);
             this.LabelMake.TabIndex = 0;
@@ -58,7 +57,7 @@
             // LabelModel
             // 
             this.LabelModel.AutoSize = true;
-            this.LabelModel.Location = new System.Drawing.Point(12, 81);
+            this.LabelModel.Location = new System.Drawing.Point(12, 41);
             this.LabelModel.Name = "LabelModel";
             this.LabelModel.Size = new System.Drawing.Size(36, 13);
             this.LabelModel.TabIndex = 1;
@@ -67,7 +66,7 @@
             // LabelYear
             // 
             this.LabelYear.AutoSize = true;
-            this.LabelYear.Location = new System.Drawing.Point(12, 107);
+            this.LabelYear.Location = new System.Drawing.Point(12, 67);
             this.LabelYear.Name = "LabelYear";
             this.LabelYear.Size = new System.Drawing.Size(29, 13);
             this.LabelYear.TabIndex = 2;
@@ -76,7 +75,7 @@
             // LabelEngine
             // 
             this.LabelEngine.AutoSize = true;
-            this.LabelEngine.Location = new System.Drawing.Point(12, 133);
+            this.LabelEngine.Location = new System.Drawing.Point(12, 93);
             this.LabelEngine.Name = "LabelEngine";
             this.LabelEngine.Size = new System.Drawing.Size(40, 13);
             this.LabelEngine.TabIndex = 3;
@@ -85,7 +84,7 @@
             // LabelVIN
             // 
             this.LabelVIN.AutoSize = true;
-            this.LabelVIN.Location = new System.Drawing.Point(12, 159);
+            this.LabelVIN.Location = new System.Drawing.Point(12, 119);
             this.LabelVIN.Name = "LabelVIN";
             this.LabelVIN.Size = new System.Drawing.Size(25, 13);
             this.LabelVIN.TabIndex = 4;
@@ -94,7 +93,7 @@
             // LabelPlate
             // 
             this.LabelPlate.AutoSize = true;
-            this.LabelPlate.Location = new System.Drawing.Point(12, 185);
+            this.LabelPlate.Location = new System.Drawing.Point(12, 145);
             this.LabelPlate.Name = "LabelPlate";
             this.LabelPlate.Size = new System.Drawing.Size(71, 13);
             this.LabelPlate.TabIndex = 5;
@@ -102,21 +101,21 @@
             // 
             // TextBoxMake
             // 
-            this.TextBoxMake.Location = new System.Drawing.Point(89, 52);
+            this.TextBoxMake.Location = new System.Drawing.Point(89, 12);
             this.TextBoxMake.Name = "TextBoxMake";
             this.TextBoxMake.Size = new System.Drawing.Size(283, 20);
             this.TextBoxMake.TabIndex = 6;
             // 
             // TextBoxModel
             // 
-            this.TextBoxModel.Location = new System.Drawing.Point(89, 78);
+            this.TextBoxModel.Location = new System.Drawing.Point(89, 38);
             this.TextBoxModel.Name = "TextBoxModel";
             this.TextBoxModel.Size = new System.Drawing.Size(283, 20);
             this.TextBoxModel.TabIndex = 7;
             // 
             // TextBoxYear
             // 
-            this.TextBoxYear.Location = new System.Drawing.Point(89, 104);
+            this.TextBoxYear.Location = new System.Drawing.Point(89, 64);
             this.TextBoxYear.Name = "TextBoxYear";
             this.TextBoxYear.Size = new System.Drawing.Size(283, 20);
             this.TextBoxYear.TabIndex = 8;
@@ -124,21 +123,21 @@
             // 
             // TextBoxEngine
             // 
-            this.TextBoxEngine.Location = new System.Drawing.Point(89, 130);
+            this.TextBoxEngine.Location = new System.Drawing.Point(89, 90);
             this.TextBoxEngine.Name = "TextBoxEngine";
             this.TextBoxEngine.Size = new System.Drawing.Size(283, 20);
             this.TextBoxEngine.TabIndex = 9;
             // 
             // TextBoxVehicleID
             // 
-            this.TextBoxVehicleID.Location = new System.Drawing.Point(89, 156);
+            this.TextBoxVehicleID.Location = new System.Drawing.Point(89, 116);
             this.TextBoxVehicleID.Name = "TextBoxVehicleID";
             this.TextBoxVehicleID.Size = new System.Drawing.Size(283, 20);
             this.TextBoxVehicleID.TabIndex = 10;
             // 
             // TextBoxPlate
             // 
-            this.TextBoxPlate.Location = new System.Drawing.Point(89, 182);
+            this.TextBoxPlate.Location = new System.Drawing.Point(89, 142);
             this.TextBoxPlate.Name = "TextBoxPlate";
             this.TextBoxPlate.Size = new System.Drawing.Size(283, 20);
             this.TextBoxPlate.TabIndex = 11;
@@ -163,23 +162,12 @@
             this.ButtonCancel.UseVisualStyleBackColor = true;
             this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
-            // LabelTitle
-            // 
-            this.LabelTitle.AutoSize = true;
-            this.LabelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.LabelTitle.Location = new System.Drawing.Point(85, 9);
-            this.LabelTitle.Name = "LabelTitle";
-            this.LabelTitle.Size = new System.Drawing.Size(39, 24);
-            this.LabelTitle.TabIndex = 14;
-            this.LabelTitle.Text = "Car";
-            this.LabelTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // CarDetails
             // 
+            this.AcceptButton = this.ButtonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
-            this.Controls.Add(this.LabelTitle);
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.TextBoxPlate);
@@ -222,6 +210,5 @@
         private System.Windows.Forms.TextBox TextBoxPlate;
         private System.Windows.Forms.Button ButtonSave;
         private System.Windows.Forms.Button ButtonCancel;
-        private System.Windows.Forms.Label LabelTitle;
     }
 }

@@ -166,6 +166,9 @@ namespace CI_Garage_Manager_Server
                         case "CarSearch":
                             Send(handler, carController.Search(protocol[1], Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
                             break;
+                        case "CarIndex":
+                            Send(handler, carController.Index(protocol[1]));
+                            break;
 
                         case "JobSave":
                             jobController.Save();
@@ -176,24 +179,18 @@ namespace CI_Garage_Manager_Server
                             Send(handler, "OK");
                             break;
                         case "JobEdit":
-                            jobController.Edit(protocol[1], Int32.Parse(protocol[2]));
+                            jobController.Edit(protocol[1], protocol[2]);
                             Send(handler, "OK");
                             break;
                         case "JobRemove":
-                            jobController.Remove(Int32.Parse(protocol[1]));
+                            jobController.Remove(protocol[1]);
                             Send(handler, "OK");
                             break;
                         case "JobGet":
                             Send(handler, jobController.Get(Int32.Parse(protocol[1]), Int32.Parse(protocol[2]), Int32.Parse(protocol[3])));
                             break;
-                        case "JobGetAll":
-                            Send(handler, jobController.GetAll());
-                            break;
                         case "JobSearch":
                             Send(handler, jobController.Search(protocol[1], Int32.Parse(protocol[2]), Int32.Parse(protocol[3]), Int32.Parse(protocol[4])));
-                            break;
-                        case "JobSearchAll":
-                            Send(handler, jobController.SearchAll(protocol[1]));
                             break;
 
                         default:

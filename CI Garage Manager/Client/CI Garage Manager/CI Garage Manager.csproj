@@ -98,6 +98,18 @@
     <Compile Include="Views\Information.Designer.cs">
       <DependentUpon>Information.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\JobOverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\JobOverview.Designer.cs">
+      <DependentUpon>JobOverview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JobDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\JobDetails.Designer.cs">
+      <DependentUpon>JobDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Jobs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +137,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Information.resx">
       <DependentUpon>Information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\JobOverview.resx">
+      <DependentUpon>JobOverview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\JobDetails.resx">
+      <DependentUpon>JobDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Jobs.resx">
+      <DependentUpon>Jobs.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

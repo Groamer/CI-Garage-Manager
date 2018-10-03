@@ -62,7 +62,7 @@ namespace CI_Garage_Manager_Server.Controllers
         public void Create(string carString)
         {
             CarModel car = new CarModel();
-            string[] carDetails = carString.Split('\n');
+            string[] carDetails = carString.Split(new string[] { "[[CarModel]]" }, StringSplitOptions.None);
 
             car.SetMake(carDetails[0]);
             car.SetModel(carDetails[1]);
@@ -77,7 +77,7 @@ namespace CI_Garage_Manager_Server.Controllers
         public void Edit(string carStringNew, string carStringOld)
         {
             CarModel car = new CarModel();
-            string[] carDetails = carStringNew.Split('\n');
+            string[] carDetails = carStringNew.Split(new string[] { "[[CarModel]]" }, StringSplitOptions.None);
 
             car.SetMake(carDetails[0]);
             car.SetModel(carDetails[1]);
@@ -138,11 +138,12 @@ namespace CI_Garage_Manager_Server.Controllers
 
             foreach (CarModel car in cars)
             {
+                string search = car.ToString().Replace("[[CarModel]]", " ");
                 Boolean hit = true;
 
                 foreach (string term in terms)
                 {
-                    if (!car.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    if (!search.ToLowerInvariant().Contains(term.ToLowerInvariant()))
                     {
                         hit = false;
                     }
@@ -167,6 +168,22 @@ namespace CI_Garage_Manager_Server.Controllers
             }
 
             return carString;
+        }
+
+        public string Index(string carString)
+        {
+            int index = -1;
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                if (cars[i].ToString() == carString)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return "Index:" + index.ToString();
         }
 
         public void PrintCars()

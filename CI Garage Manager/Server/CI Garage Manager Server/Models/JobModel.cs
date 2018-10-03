@@ -88,7 +88,7 @@ namespace CI_Garage_Manager.Models
 
         override public string ToString()
         {
-            return carID.ToString() + "\n" + startDate + "\n" + endDate + "\n" + problem + "\n" + solution + "\n" + milage.ToString() + "\n" + cost.ToString() + "\n" + revenue.ToString();
+            return carID.ToString() + "[[JobModel]]" + startDate + "[[JobModel]]" + endDate + "[[JobModel]]" + problem + "[[JobModel]]" + solution + "[[JobModel]]" + milage.ToString() + "[[JobModel]]" + cost.ToString() + "[[JobModel]]" + revenue.ToString();
         }
     }
 }

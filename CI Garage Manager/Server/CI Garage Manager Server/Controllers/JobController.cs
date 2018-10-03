@@ -62,7 +62,7 @@ namespace CI_Garage_Manager_Server.Controllers
         public void Create(string jobString)
         {
             JobModel job = new JobModel();
-            string[] jobDetails = jobString.Split('\n');
+            string[] jobDetails = jobString.Split(new string[] {"[[JobModel]]"}, StringSplitOptions.None);
 
             job.SetCarID(Int32.Parse(jobDetails[0]));
             job.SetStartDate(jobDetails[1]);
@@ -76,10 +76,10 @@ namespace CI_Garage_Manager_Server.Controllers
             jobs.Add(job);
         }
 
-        public void Edit(string jobString, int ID)
+        public void Edit(string jobStringNew, string jobStringOld)
         {
             JobModel job = new JobModel();
-            string[] jobDetails = jobString.Split('\n');
+            string[] jobDetails = jobStringNew.Split(new string[] { "[[JobModel]]" }, StringSplitOptions.None);
 
             job.SetCarID(Int32.Parse(jobDetails[0]));
             job.SetStartDate(jobDetails[1]);
@@ -90,25 +90,24 @@ namespace CI_Garage_Manager_Server.Controllers
             job.SetCost(float.Parse(jobDetails[6]));
             job.SetRevenue(float.Parse(jobDetails[7]));
 
-            try
+            for (int i = 0; i < jobs.Count; i++)
             {
-                jobs[ID] = job;
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error);
+                if (jobs[i].ToString() == jobStringOld)
+                {
+                    jobs[i] = job;
+                }
             }
         }
 
-        public void Remove(int ID)
+        public void Remove(string jobString)
         {
-            try
+            for (int i = 0; i < jobs.Count; i++)
             {
-                jobs.RemoveAt(ID);
-            }
-            catch(Exception error)
-            {
-                Console.WriteLine(error);
+                if (jobs[i].ToString() == jobString)
+                {
+                    jobs.RemoveAt(i);
+                    break;
+                }
             }
         }
 
@@ -142,23 +141,12 @@ namespace CI_Garage_Manager_Server.Controllers
             return jobList;
         }
 
-        public string GetAll()
-        {
-            string jobList = "JobList";
-
-            foreach(JobModel job in jobs)
-            {
-                jobList += "|" + job.ToString();
-            }
-
-            return jobList;
-        }
-
         public string Search(string input, int carID, int page, int shownItems)
         {
             List<JobModel> jobSelection = new List<JobModel>();
+            List<JobModel> jobList = new List<JobModel>();
             string[] terms = input.Split(' ');
-            string jobList = "JobList";
+            string jobString = "JobList";
             int firstItem = (page * shownItems) - shownItems;
             int lastItem = firstItem + shownItems;
 
@@ -172,11 +160,12 @@ namespace CI_Garage_Manager_Server.Controllers
 
             foreach (JobModel job in jobSelection)
             {
+                string search = job.ToString().Replace("[[JobModel]]", " ");
                 Boolean hit = true;
 
                 foreach (string term in terms)
                 {
-                    if (!job.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
+                    if (!search.ToLowerInvariant().Contains(term.ToLowerInvariant()))
                     {
                         hit = false;
                     }
@@ -184,37 +173,23 @@ namespace CI_Garage_Manager_Server.Controllers
 
                 if (hit)
                 {
-                    jobList += "|" + job.ToString();
+                    jobList.Add(job);
                 }
             }
 
-            return jobList;
-        }
-
-        public string SearchAll(string input)
-        {
-            string[] terms = input.Split(' ');
-            string jobList = "JobList";
-
-            foreach (JobModel job in jobs)
+            for (int i = firstItem; i < lastItem; i++)
             {
-                Boolean hit = true;
-
-                foreach (string term in terms)
+                if (i + 1 > jobList.Count)
                 {
-                    if (!job.ToString().ToLowerInvariant().Contains(term.ToLowerInvariant()))
-                    {
-                        hit = false;
-                    }
+                    break;
                 }
-
-                if (hit)
+                else
                 {
-                    jobList += "|" + job.ToString();
+                    jobString += "|" + jobList[i].ToString();
                 }
             }
 
-            return jobList;
+            return jobString;
         }
 
         public void PrintJobs()

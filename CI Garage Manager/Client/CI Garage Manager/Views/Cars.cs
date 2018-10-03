@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace CI_Garage_Manager.Views
 {
@@ -36,21 +37,12 @@ namespace CI_Garage_Manager.Views
             UpdateListView();
         }
 
-        private void CreateCar_Click(object sender, EventArgs e)
-        {
-            CarDetails carDetails = new CarDetails();
-            carDetails.ShowDialog();
-
-            UpdateCars();
-            UpdateListView();
-        }
-
         private void Edit_Click(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indices = ListViewCar.SelectedIndices;
             CarModel car = cars[indices[0]];
 
-            CarDetails carDetails = new CarDetails(car.ToString());
+            CarDetails carDetails = new CarDetails(car);
             carDetails.ShowDialog();
 
             UpdateCars();
@@ -119,7 +111,7 @@ namespace CI_Garage_Manager.Views
 
             foreach(CarModel car in cars)
             {
-                string[] row = { car.GetMake(), car.GetModel(), car.GetYear().ToString(), car.GetEngine(), car.GetVehicleID(), car.GetPlate() };
+                string[] row = {car.GetMake(), car.GetModel(), car.GetYear().ToString(), car.GetEngine(), car.GetVehicleID(), car.GetPlate()};
                 ListViewItem item = new ListViewItem(row);
                 ListViewCar.Items.Add(item);
             }
@@ -184,9 +176,14 @@ namespace CI_Garage_Manager.Views
             {
                 if(TextBoxPage.Text != "")
                 {
-                    page = Int32.Parse(TextBoxPage.Text);
-                    UpdateCars();
-                    UpdateListView();
+                    int check = Int32.Parse(TextBoxPage.Text);
+
+                    if (check > 0)
+                    {
+                        page = check;
+                        UpdateCars();
+                        UpdateListView();
+                    }
                 }
             }
             catch(Exception error)
@@ -195,11 +192,6 @@ namespace CI_Garage_Manager.Views
                 TextBoxPage.Text = page.ToString();
                 Console.WriteLine(error);
             }
-        }
-
-        private void LabelItems_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void TextBoxSearch_TextChanged(object sender, EventArgs e)
@@ -229,6 +221,41 @@ namespace CI_Garage_Manager.Views
                     ButtonRemove.Text = "Remove Cars";
                     break;
             }
+        }
+
+        private void ToolStripMenuSave_Click(object sender, EventArgs e)
+        {
+            carsController.SaveCars();
+        }
+
+        private void ToolStripMenuInformation_Click(object sender, EventArgs e)
+        {
+            Information information = new Information();
+            information.ShowDialog();
+        }
+
+        private void ToolStripMenuComputerInfor_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://www.computerinfor.nl");
+        }
+
+        private void ListViewCar_DoubleClick(object sender, EventArgs e)
+        {
+            ListView.SelectedIndexCollection indices = ListViewCar.SelectedIndices;
+            CarModel car = cars[indices[0]];
+            string index = carsController.CarIndex(car);
+
+            Jobs jobs = new Jobs(car, index);
+            jobs.Show();
+        }
+
+        private void ButtonCreate_Click(object sender, EventArgs e)
+        {
+            CarDetails carDetails = new CarDetails();
+            carDetails.ShowDialog();
+
+            UpdateCars();
+            UpdateListView();
         }
     }
 }

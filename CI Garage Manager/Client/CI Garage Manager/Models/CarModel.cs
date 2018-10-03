@@ -68,7 +68,7 @@ namespace CI_Garage_Manager.Models
 
         override public string ToString()
         {
-            return make + "\n" + model + "\n" + year + "\n" + engine + "\n" + vehicleID + "\n" + plate;
+            return make + "[[CarModel]]" + model + "[[CarModel]]" + year + "[[CarModel]]" + engine + "[[CarModel]]" + vehicleID + "[[CarModel]]" + plate;
         }
     }
 }

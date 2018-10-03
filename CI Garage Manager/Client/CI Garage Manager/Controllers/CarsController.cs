@@ -27,22 +27,34 @@ namespace CI_Garage_Manager.Controllers
             return ExtractCars(client.SendCommand("CarSearch|" + input + "|" + page.ToString() + "|" + shownItems.ToString()));
         }
 
+        public string CarIndex(CarModel car)
+        {
+            Client client = new Client();
+            return client.SendCommand("CarIndex|" + car.ToString());
+        }
+
         public void CreateCar(CarModel car)
         {
             Client client = new Client();
             Console.WriteLine(client.SendCommand("CarCreate|" + car.ToString()));
         }
 
-        public void EditCar(CarModel carNew, string carOld)
+        public void EditCar(CarModel carNew, CarModel carOld)
         {
             Client client = new Client();
-            Console.WriteLine(client.SendCommand("CarEdit|" + carNew.ToString() + "|" + carOld));
+            Console.WriteLine(client.SendCommand("CarEdit|" + carNew.ToString() + "|" + carOld.ToString()));
         }
 
         public void RemoveCar(CarModel car)
         {
             Client client = new Client();
             Console.WriteLine(client.SendCommand("CarRemove|" + car.ToString()));
+        }
+
+        public void SaveCars()
+        {
+            Client client = new Client();
+            Console.WriteLine(client.SendCommand("CarSave"));
         }
 
         private List<CarModel> ExtractCars(string data)
@@ -55,7 +67,7 @@ namespace CI_Garage_Manager.Controllers
                 for(int i = 1; i < protocol.Count(); i ++)
                 {
                     CarModel car = new CarModel();
-                    string[] carString = protocol[i].Split('\n');
+                    string[] carString = protocol[i].Split(new string[] { "[[CarModel]]" }, StringSplitOptions.None);
 
                     car.SetMake(carString[0]);
                     car.SetModel(carString[1]);

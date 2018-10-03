@@ -2,95 +2,65 @@
 using CI_Garage_Manager.Controllers;
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CI_Garage_Manager.Views
 {
     public partial class CarDetails : Form
     {
-        private CarModel car;
+        private CarModel carNew;
+        private CarModel carOld;
         private CarsController carsController;
-        private string carString;
 
         public CarDetails()
         {
             InitializeComponent();
-            this.Text = "Create Car - CI Garage Manager";
+            Text = "Create Car - CI Garage Manager";
             carsController = new CarsController();
-            car = new CarModel();
+            carNew = new CarModel();
         }
-        public CarDetails(string carString)
+        public CarDetails(CarModel car)
         {
             InitializeComponent();
-            this.Text = "Edit Car - CI Garage Manager";
-            car = new CarModel();
+            Text = "Edit Car - CI Garage Manager";
+            carNew = new CarModel();
+            carOld = car;
             carsController = new CarsController();
-            this.carString = carString;
-            SetCar();
-            SetFields();
+            InitEdit();
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if(carString == null)
+            carNew.SetMake(TextBoxMake.Text);
+            carNew.SetModel(TextBoxModel.Text);
+            if (TextBoxYear.Text != "")
             {
-                car.SetMake(TextBoxMake.Text);
-                car.SetModel(TextBoxModel.Text);
-                if(TextBoxYear.Text != "")
-                {
-                    car.SetYear(Int32.Parse(TextBoxYear.Text));
-                }
-                car.SetEngine(TextBoxEngine.Text);
-                car.SetVehicleID(TextBoxVehicleID.Text);
-                car.SetPlate(TextBoxPlate.Text);
+                carNew.SetYear(Int32.Parse(TextBoxYear.Text));
+            }
+            carNew.SetEngine(TextBoxEngine.Text);
+            carNew.SetVehicleID(TextBoxVehicleID.Text);
+            carNew.SetPlate(TextBoxPlate.Text);
 
-                carsController.CreateCar(car);
+            if (carOld == null)
+            {
+                carsController.CreateCar(carNew);
             }
             else
             {
-                car.SetMake(TextBoxMake.Text);
-                car.SetModel(TextBoxModel.Text);
-                if (TextBoxYear.Text != "")
-                {
-                    car.SetYear(Int32.Parse(TextBoxYear.Text));
-                }
-                car.SetEngine(TextBoxEngine.Text);
-                car.SetVehicleID(TextBoxVehicleID.Text);
-                car.SetPlate(TextBoxPlate.Text);
-
-                carsController.EditCar(car, carString);
+                carsController.EditCar(carNew, carOld);
             }
 
             Close();
         }
 
-        private void SetCar()
+        private void InitEdit()
         {
-            string[] carDetails = carString.Split('\n');
-            
-            car.SetMake(carDetails[0]);
-            car.SetModel(carDetails[1]);
-            car.SetYear(Int32.Parse(carDetails[2]));
-            car.SetEngine(carDetails[3]);
-            car.SetVehicleID(carDetails[4]);
-            car.SetPlate(carDetails[5]);
-        }
-
-        private void SetFields()
-        {
-            TextBoxMake.Text = car.GetMake();
-            TextBoxModel.Text = car.GetModel();
-            TextBoxYear.Text = car.GetYear().ToString();
-            TextBoxEngine.Text = car.GetEngine();
-            TextBoxVehicleID.Text = car.GetVehicleID();
-            TextBoxPlate.Text = car.GetPlate();
+            TextBoxMake.Text = carOld.GetMake();
+            TextBoxModel.Text = carOld.GetModel();
+            TextBoxYear.Text = carOld.GetYear().ToString();
+            TextBoxEngine.Text = carOld.GetEngine();
+            TextBoxVehicleID.Text = carOld.GetVehicleID();
+            TextBoxPlate.Text = carOld.GetPlate();
         }
 
         private void TextBoxYear_TextChanged(object sender, EventArgs e)

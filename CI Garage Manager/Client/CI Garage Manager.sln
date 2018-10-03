@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI Garage Manager", "CI Garage Manager\CI Garage Manager.csproj", "{6A6AF795-8C7B-4590-B55B-D50B30DFBB61}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{B0124BE0-F195-43D2-8DF7-50F9F532313E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{6A6AF795-8C7B-4590-B55B-D50B30DFBB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A6AF795-8C7B-4590-B55B-D50B30DFBB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A6AF795-8C7B-4590-B55B-D50B30DFBB61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0124BE0-F195-43D2-8DF7-50F9F532313E}.Debug|Any CPU.ActiveCfg = Debug
+		{B0124BE0-F195-43D2-8DF7-50F9F532313E}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
